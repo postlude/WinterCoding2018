@@ -2,11 +2,11 @@ package boot.project.wintercoding.mapper;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import boot.project.wintercoding.dto.Test;
 
-@Repository
+@Mapper
 public interface TestMapper {
 	List<Test> selectAll();
 }
