@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="boot.project.wintercoding.mapper.TodoMapper">
+	<insert id="insert">
+		INSERT INTO
+			todo(title, content, deadline, complete, priority)
+		VALUES
+			(#{title}, #{content}, #{deadline}, #{complete}, #{priority})
+	</insert>
+	
+	<select id="selectAll" resultType="boot.project.wintercoding.dto.Todo">
+		SELECT
+			id, title, content, deadline, complete, priority
+		FROM
+			todo
+	</select>
+	
+	<select id="selectById" parameterType="int" resultType="boot.project.wintercoding.dto.Todo">
+		SELECT
+			id, title, content, deadline, complete, priority
+		FROM
+			todo
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="updateById">
+		UPDATE
+			todo
+		SET
+			title = #{title}, content = #{content}, deadline = #{deadline}, complete = #{complete}, priority = #{priority}
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		DELETE
+			todo
+		WHERE
+			id = #{id}
+	</delete>
+</mapper>
