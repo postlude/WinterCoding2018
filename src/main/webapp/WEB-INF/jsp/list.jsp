@@ -9,14 +9,39 @@
 <!-- bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title></title>
+<title>TODO LIST</title>
 </head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			// 우선 순위에 맞춰 panel class 추가
+			$('.panel').each(function(){
+				var priority = $(this).children('input[name=priority]').val();
+				
+				switch(priority){
+					case '3' : {
+						$(this).addClass('panel-danger');
+						break;
+					}
+					case '2' : {
+						$(this).addClass('panel-info');
+						break;
+					}
+					case '1' : {
+						$(this).addClass('panel-success');
+						break;
+					}
+					default : {
+						$(this).addClass('panel-default');
+						break;
+					}
+				}
+			});
+			
+			// 삭제 버튼 동작
 			$('.btn-danger').click(function(){
-				var id = $(this).parent().children('input[name="id"]').val();
-				console.log(id);
+				var delete_btn = $(this); 
+				var id = delete_btn.siblings('input[name="id"]').val();
 				
 				$.ajax({
 					url: '/remove',
@@ -25,6 +50,7 @@
 				})
 				.done(function(){
 					console.log('success');
+					delete_btn.parent().parent('.panel').remove();
 				})
 				.fail(function(err){
 					console.log(err);
@@ -33,17 +59,48 @@
 		});
 	</script>
 	<div class="container">
-		<c:forEach var="todo" items="${todo_list}">
-			<div>
-				${todo.title}<br>
-				${todo.content}<br>
-				${todo.deadline}<br>
-				${todo.complete}<br>
-				${todo.priority}<br>
-				<input type="hidden" name="id" value="${todo.id}">
-				<button class="btn btn-danger">삭제</button>
+		<h1 style="text-align: center">TODO LIST</h1>
+		<div class="btn-group">
+			<button type="button" class="btn btn-info">새로운 할 일</button>
+			<div class="btn-group">
+				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+				정렬 <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">우선순위</a></li>
+					<li><a href="#">마감기한</a></li>
+				</ul>
 			</div>
-		</c:forEach>
+		</div>
+		
+		<div class="list-group">
+			<c:forEach var="todo" items="${todo_list}">
+				<div class="panel">
+					<input type="hidden" name="priority" value="${todo.priority}">
+					
+					<div class="panel-heading">
+						<a href="/set/${todo.id}">
+							<c:choose>
+								<c:when test="${todo.complete eq 'Y'}">
+									<del>${todo.title}(완료)</del>
+								</c:when>
+								<c:otherwise>
+									${todo.title}
+								</c:otherwise>
+							</c:choose>
+						</a>
+						<input type="hidden" name="id" value="${todo.id}">
+						<button class="btn btn-danger btn-xs" style="float: right;">삭제</button>
+					</div>
+					
+					<div class="panel-body">
+						<p>${todo.content}</p>
+						<c:if test="${not empty todo.deadline}">
+							<p>마감 기한 : ${todo.deadline}</p>
+						</c:if>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 	</div>
 </body>
 </html>

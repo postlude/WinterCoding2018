@@ -1,12 +1,14 @@
 package boot.project.wintercoding.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Todo {
+	private static String DEADLINE_PATTERN = "yyyy-MM-dd";
 	private int id;
 	private String title;
 	private String content;
-	private Date deadline;
+	private LocalDate deadline;
 	private String complete;
 	private int priority;
 	
@@ -28,11 +30,15 @@ public class Todo {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getDeadline() {
+	public LocalDate getDeadline() {
 		return deadline;
 	}
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
+	public void setDeadline(String deadline) {
+		if(deadline.equals("")) {
+			this.deadline = null;
+		}else {
+			this.deadline = LocalDate.parse(deadline, DateTimeFormatter.ofPattern(Todo.DEADLINE_PATTERN));
+		}
 	}
 	public String getComplete() {
 		return complete;
