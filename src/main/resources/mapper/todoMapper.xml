@@ -11,11 +11,22 @@
 			(#{title}, #{content}, #{deadline}, #{complete}, #{priority})
 	</insert>
 	
-	<select id="selectAll" resultType="boot.project.wintercoding.dto.Todo">
+	<select id="selectAllOrderByDeadline" resultType="boot.project.wintercoding.dto.Todo">
 		SELECT
 			id, title, content, deadline, complete, priority
 		FROM
 			todo
+		ORDER BY
+			deadline ASC
+	</select>
+	
+	<select id="selectAllOrderByPriority" resultType="boot.project.wintercoding.dto.Todo">
+		SELECT
+			id, title, content, deadline, complete, priority
+		FROM
+			todo
+		ORDER BY
+			priority DESC
 	</select>
 	
 	<select id="selectById" parameterType="int" resultType="boot.project.wintercoding.dto.Todo">
@@ -27,7 +38,7 @@
 			id = #{id}
 	</select>
 	
-	<update id="updateById">
+	<update id="updateById" parameterType="boot.project.wintercoding.dto.Todo">
 		UPDATE
 			todo
 		SET

@@ -1,8 +1,3 @@
-create table test(
-	num int,
-	str varchar(20)
-);
-
 create table todo(
 	id int auto_increment primary key,
 	title varchar(100) not null,

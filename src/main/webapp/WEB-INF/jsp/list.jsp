@@ -28,10 +28,6 @@
 						break;
 					}
 					case '1' : {
-						$(this).addClass('panel-success');
-						break;
-					}
-					default : {
 						$(this).addClass('panel-default');
 						break;
 					}
@@ -56,18 +52,34 @@
 					console.log(err);
 				});
 			});
+			
+			// 마감 날짜 지난 todo 알림
+			var now = new Date();
+			var passed_deadline = [];
+			$('.deadline').each(function(){
+				var deadline = new Date($(this).html());
+				
+				if(now > deadline){
+					var title = $(this).parent().parent().siblings('.panel-heading').find('.title').html();
+					passed_deadline.push(title);
+					$(this).append(' <span style="color:red">마감</span>');
+				}
+			});
+			if(passed_deadline.length !== 0){
+				alert('마감 기한이 지난 항목 : ' + passed_deadline);
+			}
 		});
 	</script>
 	<div class="container">
 		<h1 style="text-align: center">TODO LIST</h1>
-		<div class="btn-group">
-			<button type="button" class="btn btn-info">새로운 할 일</button>
+		<div class="col-sm-offset-10 btn-group" style="margin-bottom: 20px;">
+			<a href="/add" class="btn btn-info">새로운 할 일</a>
 			<div class="btn-group">
 				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
 				정렬 <span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">우선순위</a></li>
-					<li><a href="#">마감기한</a></li>
+					<li><a href="/list/priority">우선순위</a></li>
+					<li><a href="/list/deadline">마감기한</a></li>
 				</ul>
 			</div>
 		</div>
@@ -81,10 +93,10 @@
 						<a href="/set/${todo.id}">
 							<c:choose>
 								<c:when test="${todo.complete eq 'Y'}">
-									<del>${todo.title}(완료)</del>
+									<del><span class="title">${todo.title}</span>(완료)</del>
 								</c:when>
 								<c:otherwise>
-									${todo.title}
+									<span class="title">${todo.title}</span>
 								</c:otherwise>
 							</c:choose>
 						</a>
@@ -95,7 +107,10 @@
 					<div class="panel-body">
 						<p>${todo.content}</p>
 						<c:if test="${not empty todo.deadline}">
-							<p>마감 기한 : ${todo.deadline}</p>
+							<p>
+								마감 기한 : <span class="deadline">${todo.deadline}</span>
+								
+							</p>
 						</c:if>
 					</div>
 				</div>

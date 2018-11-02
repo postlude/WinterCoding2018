@@ -17,8 +17,12 @@ public class TodoService {
 		todoMapper.insert(todo);
 	}
 	
-	public List<Todo> getAll(){
-		return todoMapper.selectAll();
+	public List<Todo> getAllOrderByDeadline(){
+		return todoMapper.selectAllOrderByDeadline();
+	}
+	
+	public List<Todo> getAllOrderByPriority(){
+		return todoMapper.selectAllOrderByPriority();
 	}
 	
 	public Todo getById(int id) {

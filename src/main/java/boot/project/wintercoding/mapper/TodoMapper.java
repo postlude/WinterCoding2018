@@ -9,7 +9,8 @@ import boot.project.wintercoding.dto.Todo;
 @Mapper
 public interface TodoMapper {
 	void insert(Todo todo);
-	List<Todo> selectAll();
+	List<Todo> selectAllOrderByDeadline();
+	List<Todo> selectAllOrderByPriority();
 	Todo selectById(int id);
 	void updateById(Todo todo);
 	void deleteById(int id);

@@ -72,7 +72,6 @@
     			<label class="col-sm-2 control-label" for="priority">우선순위</label>
     			<div class="col-sm-10 ">
 					<select class="form-control" name="priority" id="priority">
-						<option value="0">없음</option>
 						<option value="3">상</option>
 						<option value="2">중</option>
 						<option value="1">하</option>

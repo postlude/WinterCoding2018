@@ -16,6 +16,11 @@ public class TodoController {
 	@Autowired
 	private TodoService todoService;
 	
+	@RequestMapping("/")
+	public String root() {
+		return "redirect:/list/deadline";
+	}
+	
 	@RequestMapping(value="add", method=RequestMethod.GET)
 	public String add() {
 		return "form";
@@ -24,12 +29,18 @@ public class TodoController {
 	@RequestMapping(value="add", method=RequestMethod.POST)
 	public String add(Todo todo) {
 		todoService.add(todo);
-		return "form";
+		return "redirect:/";
 	}
 	
-	@RequestMapping(value="list", method=RequestMethod.GET)
-	public String list(Model model) {
-		model.addAttribute("todo_list", todoService.getAll());
+	@RequestMapping(value="list/deadline", method=RequestMethod.GET)
+	public String listByDeadline(Model model) {
+		model.addAttribute("todo_list", todoService.getAllOrderByDeadline());
+		return "list";
+	}
+	
+	@RequestMapping(value="list/priority", method=RequestMethod.GET)
+	public String listByPriority(Model model) {
+		model.addAttribute("todo_list", todoService.getAllOrderByPriority());
 		return "list";
 	}
 	
@@ -40,9 +51,10 @@ public class TodoController {
 	}
 	
 	@RequestMapping(value="set/{id}", method=RequestMethod.POST)
-	public String set(Todo todo) {
+	public String set(Todo todo, @PathVariable("id") int id) {
+		todo.setId(id);
 		todoService.setById(todo);
-		return "redirect:/list";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="remove", method=RequestMethod.POST)
