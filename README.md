@@ -26,3 +26,4 @@ github의 readme에는 해당 웹서버를 리눅스 기준으로 실행하기 �
 
 ## 진행 사항
 기능 완료<br>
+주석 추가, refactoring

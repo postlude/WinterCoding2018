@@ -107,10 +107,7 @@
 					<div class="panel-body">
 						<p>${todo.content}</p>
 						<c:if test="${not empty todo.deadline}">
-							<p>
-								마감 기한 : <span class="deadline">${todo.deadline}</span>
-								
-							</p>
+							<p>마감 기한 : <span class="deadline">${todo.deadline}</span></p>
 						</c:if>
 					</div>
 				</div>

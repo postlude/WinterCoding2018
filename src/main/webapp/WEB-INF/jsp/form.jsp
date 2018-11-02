@@ -19,6 +19,7 @@
 <body>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			// 완료 체크박스 체크
 			var complete_check = $('#complete_check');
 			if('${todo.complete}' === 'Y'){
 				complete_check.attr('checked', true);
@@ -28,6 +29,7 @@
 				$('#complete').val('N');
 			}
 			
+			// 완료 체크박스 클릭시 동작
 			complete_check.click(function(){
 				if(complete_check.is(":checked")){
 					$('#complete').val('Y');
@@ -36,6 +38,7 @@
 				}
 			});
 			
+			// 우선순위 체크
 			var priority_select_option = $('#priority option');
 			priority_select_option.each(function(){
 				if($(this).val() === '${todo.priority}'){
@@ -48,14 +51,14 @@
 		<h1 style="text-align: center">TODO</h1>
 		<form class="form-horizontal" method="post">
 			<div class="form-group">
-      			<label class="col-sm-2 control-label">Title</label>
+      			<label class="col-sm-2 control-label">제목</label>
       			<div class="col-sm-10">
       				<input type="text" class="form-control" name="title" value="${todo.title}" required>
       			</div>
     		</div>
     		
 			<div class="form-group">
-      			<label class="col-sm-2 control-label">Content</label>
+      			<label class="col-sm-2 control-label">내용</label>
       			<div class="col-sm-10">
       				<input type="text" class="form-control" name="content" value="${todo.content}" required>
       			</div>

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Todo {
 	private static String DEADLINE_PATTERN = "yyyy-MM-dd";
+	private static String EMPTY_STRING = "";
 	private int id;
 	private String title;
 	private String content;
@@ -34,7 +35,7 @@ public class Todo {
 		return deadline;
 	}
 	public void setDeadline(String deadline) {
-		if(deadline.equals("")) {
+		if(deadline.equals(Todo.EMPTY_STRING)) {
 			this.deadline = null;
 		}else {
 			this.deadline = LocalDate.parse(deadline, DateTimeFormatter.ofPattern(Todo.DEADLINE_PATTERN));
