@@ -26,4 +26,11 @@ github의 readme에는 해당 웹서버를 리눅스 기준으로 실행하기 �
 
 ## 진행 사항
 기능 완료<br>
-주석 추가, refactoring
+주석 추가, refactoring<br>
+hibernate, lombok 적용 완료
+
+## 설치/빌드 방법
+JAVA version : 1.8 이상<br>
+Maven Compile : mvn compile<br>
+Maven build : mvn package<br>
+Run : java -jar [생성 war 명]

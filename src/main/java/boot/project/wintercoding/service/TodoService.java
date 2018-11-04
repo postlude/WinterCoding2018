@@ -3,22 +3,24 @@ package boot.project.wintercoding.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import boot.project.wintercoding.dto.Todo;
-import boot.project.wintercoding.mapper.TodoMapper;
+import boot.project.wintercoding.constant.TodoConstant;
+import boot.project.wintercoding.entity.Todo;
+import boot.project.wintercoding.repository.TodoRepository;
 
 @Service
 public class TodoService {
 	@Autowired
-	private TodoMapper todoMapper;
+	private TodoRepository todoRepository;
 	
 	/**
-	 * 새로운 todo 추가 메소드
+	 * 새로운 todo를 추가하거나 수정하는 메소드
 	 * @param todo
 	 */
-	public void add(Todo todo) {
-		todoMapper.insert(todo);
+	public void save(Todo todo) {
+		todoRepository.save(todo);
 	}
 	
 	/**
@@ -26,7 +28,15 @@ public class TodoService {
 	 * @return List<Todo>
 	 */
 	public List<Todo> getAllOrderByDeadline(){
-		return todoMapper.selectAllOrderByDeadline();
+		return todoRepository.findAll(sortByDeadlineAsc());
+	}
+	
+	/**
+	 * 마감 기한 오름차순 정렬 메소드
+	 * @return Sort
+	 */
+	private Sort sortByDeadlineAsc() {
+		return new Sort(Sort.Direction.ASC, TodoConstant.DEADLINE_COLUMN_NAME.getValue());
 	}
 	
 	/**
@@ -34,7 +44,15 @@ public class TodoService {
 	 * @return List<Todo>
 	 */
 	public List<Todo> getAllOrderByPriority(){
-		return todoMapper.selectAllOrderByPriority();
+		return todoRepository.findAll(sortByPriorityDesc());
+	}
+	
+	/**
+	 * 우선 순위 내림차순 정렬 메소드
+	 * @return Sort
+	 */
+	private Sort sortByPriorityDesc() {
+		return new Sort(Sort.Direction.DESC, TodoConstant.PRIORITY_COLUMN_NAME.getValue());
 	}
 
 	/**
@@ -43,15 +61,7 @@ public class TodoService {
 	 * @return
 	 */
 	public Todo getById(int id) {
-		return todoMapper.selectById(id);
-	}
-	
-	/**
-	 * todo 1개 수정 메소드
-	 * @param todo
-	 */
-	public void setById(Todo todo) {
-		todoMapper.updateById(todo);
+		return todoRepository.getOne(id);
 	}
 	
 	/**
@@ -59,6 +69,6 @@ public class TodoService {
 	 * @param id
 	 */
 	public void removeById(int id) {
-		todoMapper.deleteById(id);
+		todoRepository.deleteById(id);
 	}
 }
